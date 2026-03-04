@@ -5,6 +5,7 @@ const RESET_VERSION = "2026-03-03-fresh-reset";
 const playerForm = document.getElementById("player-form");
 const playerList = document.getElementById("player-list");
 const formMessage = document.getElementById("form-message");
+const { validatePlayer } = window.PlayerValidation;
 
 function runOneTimeReset() {
   const currentResetVersion = window.localStorage.getItem(RESET_VERSION_KEY);
@@ -31,10 +32,6 @@ function getPlayers() {
 
 function savePlayers(players) {
   window.localStorage.setItem(STORAGE_KEY, JSON.stringify(players));
-}
-
-function normalize(value) {
-  return value.trim().toLowerCase();
 }
 
 function renderPlayers() {
@@ -72,32 +69,10 @@ playerForm.addEventListener("submit", (event) => {
     specialization: (formData.get("specialization") || "").toString().trim(),
   };
 
-  const hasMissingField = Object.values(player).some((value) => value === "");
-  if (hasMissingField) {
-    formMessage.textContent = "All fields are required.";
-    formMessage.className = "message error";
-    return;
-  }
-
   const players = getPlayers();
-
-  const duplicateNumber = players.some(
-    (existing) => normalize(existing.number) === normalize(player.number)
-  );
-  if (duplicateNumber) {
-    formMessage.textContent = "Player number must be unique.";
-    formMessage.className = "message error";
-    return;
-  }
-
-  const duplicateName = players.some(
-    (existing) =>
-      normalize(existing.firstName) === normalize(player.firstName) &&
-      normalize(existing.lastName) === normalize(player.lastName)
-  );
-  if (duplicateName) {
-    formMessage.textContent =
-      "First and last name combination must be unique.";
+  const validation = validatePlayer(players, player);
+  if (!validation.valid) {
+    formMessage.textContent = validation.message;
     formMessage.className = "message error";
     return;
   }
