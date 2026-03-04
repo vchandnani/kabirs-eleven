@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kabir's Eleven</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <header class="tricolor-banner" aria-hidden="true"></header>
+    <main class="container">
+      <h1>Kabir's Eleven</h1>
+      <p class="subtitle">Step 1: Create cricket players</p>
+
+      <div class="content-grid">
+        <section class="card">
+          <h2>Add Player</h2>
+          <form id="player-form" novalidate>
+            <label for="number">Player Number</label>
+            <input id="number" name="number" type="text" required />
+
+            <label for="firstName">First Name</label>
+            <input id="firstName" name="firstName" type="text" required />
+
+            <label for="lastName">Last Name</label>
+            <input id="lastName" name="lastName" type="text" required />
+
+            <label for="teamAffiliation">Team Affiliation</label>
+            <input
+              id="teamAffiliation"
+              name="teamAffiliation"
+              type="text"
+              required
+            />
+
+            <label for="specialization">Specialization</label>
+            <input
+              id="specialization"
+              name="specialization"
+              type="text"
+              required
+            />
+
+            <button type="submit">Create Player</button>
+            <p
+              id="form-message"
+              class="message"
+              role="status"
+              aria-live="polite"
+            ></p>
+          </form>
+        </section>
+
+        <section class="card">
+          <h2>Players</h2>
+          <ul id="player-list"></ul>
+        </section>
+      </div>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+  </html>

@@ -1,0 +1,145 @@
+:root {
+  --bg: #f4f6f8;
+  --surface: #ffffff;
+  --text: #142033;
+  --muted: #4e607a;
+  --border: #d7deea;
+  --accent: #0f5cad;
+  --success: #0f7a43;
+  --error: #a3152d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(180deg, #eef3f9 0%, #f9fbfd 100%);
+  color: var(--text);
+}
+
+.tricolor-banner {
+  width: 100%;
+  height: 72px;
+  background: linear-gradient(
+    to bottom,
+    #ff9933 0%,
+    #ff9933 33.33%,
+    #ffffff 33.33%,
+    #ffffff 66.66%,
+    #138808 66.66%,
+    #138808 100%
+  );
+  border-bottom: 1px solid #d9e1ea;
+}
+
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+h1 {
+  margin-bottom: 0.25rem;
+}
+
+.subtitle {
+  margin-top: 0;
+  color: var(--muted);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.content-grid .card {
+  margin-top: 0;
+}
+
+form {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+}
+
+label {
+  font-weight: 600;
+}
+
+input {
+  padding: 0.6rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+input:focus {
+  outline: 2px solid #cde1fb;
+  border-color: var(--accent);
+}
+
+button {
+  margin-top: 0.5rem;
+  background: var(--accent);
+  border: none;
+  color: #fff;
+  padding: 0.7rem 0.9rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.94;
+}
+
+.message {
+  min-height: 1.25rem;
+  margin: 0.4rem 0 0;
+}
+
+.success {
+  color: var(--success);
+}
+
+.error {
+  color: var(--error);
+}
+
+#player-list {
+  padding-left: 1rem;
+  margin: 0;
+}
+
+.player-item {
+  margin-bottom: 0.4rem;
+}
+
+.empty {
+  color: var(--muted);
+  list-style: none;
+  margin-left: -1rem;
+}
+
+@media (min-width: 900px) {
+  .container {
+    max-width: 1100px;
+  }
+
+  .content-grid {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
