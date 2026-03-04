@@ -5,6 +5,9 @@
   "description": "Cricket player management app",
   "scripts": {
     "test": "node --test",
-    "test:coverage": "node --test --experimental-test-coverage --test-coverage-lines=90 --test-coverage-functions=90 --test-coverage-branches=85"
+    "test:coverage": "c8 --reporter=text-summary --reporter=html --reporter=lcov --reporter=json-summary --check-coverage --lines 90 --functions 90 --branches 85 node --test"
+  },
+  "devDependencies": {
+    "c8": "^11.0.0"
   }
 }
