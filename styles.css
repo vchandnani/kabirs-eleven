@@ -68,6 +68,17 @@ h1 {
   margin-top: 0;
 }
 
+.matches-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.matches-grid .card {
+  margin-top: 0;
+}
+
 form {
   display: grid;
   grid-template-columns: 1fr;
@@ -85,6 +96,14 @@ input {
   font-size: 1rem;
 }
 
+select {
+  padding: 0.6rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 1rem;
+  background: #fff;
+}
+
 textarea {
   padding: 0.6rem 0.7rem;
   border: 1px solid var(--border);
@@ -95,6 +114,11 @@ textarea {
 }
 
 input:focus {
+  outline: 2px solid #cde1fb;
+  border-color: var(--accent);
+}
+
+select:focus {
   outline: 2px solid #cde1fb;
   border-color: var(--accent);
 }
@@ -275,10 +299,41 @@ button:hover {
   object-fit: cover;
 }
 
+#match-list {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+}
+
+.match-item {
+  margin-bottom: 0.6rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.7rem;
+}
+
+.match-score,
+.match-winner,
+.match-detail {
+  margin: 0.35rem 0 0;
+  font-size: 0.92rem;
+}
+
+.match-winner {
+  color: var(--success);
+  font-weight: 600;
+}
+
 @media (min-width: 900px) {
   .content-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     align-items: start;
+  }
+}
+
+@media (max-width: 900px) {
+  .matches-grid {
+    grid-template-columns: 1fr;
   }
 }
 

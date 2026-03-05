@@ -10,7 +10,7 @@
     <header class="tricolor-banner" aria-hidden="true"></header>
     <main class="container">
       <h1>Kabir's Eleven</h1>
-      <p class="subtitle">Step 2: Manage cricket players and teams</p>
+      <p class="subtitle">Step 3: Manage cricket players, teams, and matches</p>
 
       <div class="content-grid">
         <section class="card">
@@ -69,7 +69,7 @@
             <label for="teamName">Team Name</label>
             <input id="teamName" name="teamName" type="text" required />
 
-            <label for="teamLogo">Team Logo URL</label>
+            <label for="teamLogo">Team Logo</label>
             <div id="team-logo-options" class="logo-options" role="group"></div>
             <input id="teamLogo" name="teamLogo" type="hidden" required />
 
@@ -108,10 +108,81 @@
           <ul id="team-list"></ul>
         </section>
       </div>
+
+      <div class="matches-grid">
+        <section class="card">
+          <h2>Create Match</h2>
+          <form id="match-form" novalidate>
+            <label for="matchTeamA">Team A</label>
+            <select id="matchTeamA" name="matchTeamA" required></select>
+
+            <label for="matchTeamB">Team B</label>
+            <select id="matchTeamB" name="matchTeamB" required></select>
+
+            <label for="teamABatterRuns">
+              Team A Batter Runs (playerNumber:runs)
+            </label>
+            <input
+              id="teamABatterRuns"
+              name="teamABatterRuns"
+              type="text"
+              placeholder="18:42, 45:31"
+              required
+            />
+
+            <label for="teamBBatterRuns">
+              Team B Batter Runs (playerNumber:runs)
+            </label>
+            <input
+              id="teamBBatterRuns"
+              name="teamBBatterRuns"
+              type="text"
+              placeholder="7:50, 8:20"
+              required
+            />
+
+            <label for="teamABowlerWickets">
+              Team A Bowler Wickets (playerNumber:wickets)
+            </label>
+            <input
+              id="teamABowlerWickets"
+              name="teamABowlerWickets"
+              type="text"
+              placeholder="19:2, 33:1"
+              required
+            />
+
+            <label for="teamBBowlerWickets">
+              Team B Bowler Wickets (playerNumber:wickets)
+            </label>
+            <input
+              id="teamBBowlerWickets"
+              name="teamBBowlerWickets"
+              type="text"
+              placeholder="11:3, 99:2"
+              required
+            />
+
+            <button id="submit-match-button" type="submit">Create Match</button>
+            <p
+              id="match-form-message"
+              class="message"
+              role="status"
+              aria-live="polite"
+            ></p>
+          </form>
+        </section>
+
+        <section class="card">
+          <h2>Matches</h2>
+          <ul id="match-list"></ul>
+        </section>
+      </div>
     </main>
 
     <script src="./player-validation.js"></script>
     <script src="./team-validation.js"></script>
+    <script src="./match-validation.js"></script>
     <script src="./app.js"></script>
   </body>
   </html>

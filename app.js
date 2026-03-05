@@ -1,5 +1,6 @@
 const STORAGE_KEY = "cricketPlayers";
 const TEAM_STORAGE_KEY = "cricketTeams";
+const MATCH_STORAGE_KEY = "cricketMatches";
 const RESET_VERSION_KEY = "cricketPlayersResetVersion";
 const RESET_VERSION = "2026-03-03-fresh-reset";
 
@@ -14,8 +15,13 @@ const teamFormMessage = document.getElementById("team-form-message");
 const teamLogoOptions = document.getElementById("team-logo-options");
 const submitTeamButton = document.getElementById("submit-team-button");
 const cancelTeamEditButton = document.getElementById("cancel-team-edit-button");
+const matchForm = document.getElementById("match-form");
+const matchList = document.getElementById("match-list");
+const matchFormMessage = document.getElementById("match-form-message");
+const submitMatchButton = document.getElementById("submit-match-button");
 const { validatePlayer } = window.PlayerValidation;
 const { validateTeam, normalize: normalizeTeamValue } = window.TeamValidation;
+const { validateMatch } = window.MatchValidation;
 let editingIndex = null;
 let editingTeamIndex = null;
 const TEAM_LOGOS = [
@@ -147,6 +153,23 @@ function getTeams() {
 
 function saveTeams(teams) {
   window.localStorage.setItem(TEAM_STORAGE_KEY, JSON.stringify(teams));
+}
+
+function getMatches() {
+  const raw = window.localStorage.getItem(MATCH_STORAGE_KEY);
+  if (!raw) {
+    return [];
+  }
+
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return [];
+  }
+}
+
+function saveMatches(matches) {
+  window.localStorage.setItem(MATCH_STORAGE_KEY, JSON.stringify(matches));
 }
 
 function setEditingMode(index) {
@@ -376,6 +399,115 @@ function renderTeams() {
     item.appendChild(playerNames);
     teamList.appendChild(item);
   });
+
+  populateMatchTeamOptions();
+}
+
+function populateMatchTeamOptions() {
+  const teams = getTeams();
+  const teamASelect = matchForm.elements.matchTeamA;
+  const teamBSelect = matchForm.elements.matchTeamB;
+  const previousTeamA = teamASelect.value;
+  const previousTeamB = teamBSelect.value;
+
+  teamASelect.innerHTML = "";
+  teamBSelect.innerHTML = "";
+
+  if (teams.length < 2) {
+    const optionA = document.createElement("option");
+    optionA.value = "";
+    optionA.textContent = "Add at least 2 teams";
+    const optionB = document.createElement("option");
+    optionB.value = "";
+    optionB.textContent = "Add at least 2 teams";
+    teamASelect.appendChild(optionA);
+    teamBSelect.appendChild(optionB);
+    submitMatchButton.disabled = true;
+    return;
+  }
+
+  teams.forEach((team, index) => {
+    const optionA = document.createElement("option");
+    optionA.value = String(index);
+    optionA.textContent = team.name;
+    const optionB = document.createElement("option");
+    optionB.value = String(index);
+    optionB.textContent = team.name;
+    teamASelect.appendChild(optionA);
+    teamBSelect.appendChild(optionB);
+  });
+
+  submitMatchButton.disabled = false;
+  teamASelect.value = previousTeamA || "0";
+  teamBSelect.value = previousTeamB || "1";
+
+  if (teamASelect.value === teamBSelect.value) {
+    teamBSelect.value = teamASelect.value === "0" ? "1" : "0";
+  }
+}
+
+function buildStatSummary(entries, suffix) {
+  return entries.map((entry) => `#${entry.playerNumber} ${entry.value}${suffix}`).join(", ");
+}
+
+function renderMatches() {
+  const matches = getMatches();
+  matchList.innerHTML = "";
+
+  if (matches.length === 0) {
+    const empty = document.createElement("li");
+    empty.className = "empty";
+    empty.textContent = "No matches added yet.";
+    matchList.appendChild(empty);
+    return;
+  }
+
+  matches.forEach((match) => {
+    const item = document.createElement("li");
+    item.className = "match-item";
+
+    const title = document.createElement("strong");
+    title.textContent = `${match.teamAName} vs ${match.teamBName}`;
+
+    const score = document.createElement("p");
+    score.className = "match-score";
+    score.textContent =
+      `${match.teamAName}: ${match.teamATotalRuns}/${match.teamAWicketsLost} | ` +
+      `${match.teamBName}: ${match.teamBTotalRuns}/${match.teamBWicketsLost}`;
+
+    const winner = document.createElement("p");
+    winner.className = "match-winner";
+    winner.textContent = `Winner: ${match.winningTeamName}`;
+
+    const detailA = document.createElement("p");
+    detailA.className = "match-detail";
+    detailA.textContent =
+      `${match.teamAName} batters: ${buildStatSummary(match.teamABatterRuns, "r")}`;
+
+    const detailB = document.createElement("p");
+    detailB.className = "match-detail";
+    detailB.textContent =
+      `${match.teamBName} batters: ${buildStatSummary(match.teamBBatterRuns, "r")}`;
+
+    const wicketsA = document.createElement("p");
+    wicketsA.className = "match-detail";
+    wicketsA.textContent =
+      `${match.teamAName} bowlers: ${buildStatSummary(match.teamABowlerWickets, "w")}`;
+
+    const wicketsB = document.createElement("p");
+    wicketsB.className = "match-detail";
+    wicketsB.textContent =
+      `${match.teamBName} bowlers: ${buildStatSummary(match.teamBBowlerWickets, "w")}`;
+
+    item.appendChild(title);
+    item.appendChild(score);
+    item.appendChild(winner);
+    item.appendChild(detailA);
+    item.appendChild(detailB);
+    item.appendChild(wicketsA);
+    item.appendChild(wicketsB);
+    matchList.appendChild(item);
+  });
 }
 
 playerForm.addEventListener("submit", (event) => {
@@ -475,6 +607,70 @@ cancelTeamEditButton.addEventListener("click", () => {
   teamFormMessage.className = "message";
 });
 
+matchForm.elements.matchTeamA.addEventListener("change", () => {
+  const teamASelect = matchForm.elements.matchTeamA;
+  const teamBSelect = matchForm.elements.matchTeamB;
+  if (teamASelect.value === teamBSelect.value && teamBSelect.options.length > 1) {
+    const alternatives = Array.from(teamBSelect.options).filter(
+      (option) => option.value !== teamASelect.value
+    );
+    if (alternatives[0]) {
+      teamBSelect.value = alternatives[0].value;
+    }
+  }
+});
+
+matchForm.elements.matchTeamB.addEventListener("change", () => {
+  const teamASelect = matchForm.elements.matchTeamA;
+  const teamBSelect = matchForm.elements.matchTeamB;
+  if (teamASelect.value === teamBSelect.value && teamASelect.options.length > 1) {
+    const alternatives = Array.from(teamASelect.options).filter(
+      (option) => option.value !== teamBSelect.value
+    );
+    if (alternatives[0]) {
+      teamASelect.value = alternatives[0].value;
+    }
+  }
+});
+
+matchForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+  matchFormMessage.textContent = "";
+
+  if (submitMatchButton.disabled) {
+    matchFormMessage.textContent = "Add at least 2 teams before creating a match.";
+    matchFormMessage.className = "message error";
+    return;
+  }
+
+  const formData = new FormData(matchForm);
+  const payload = {
+    teamAIndex: (formData.get("matchTeamA") || "").toString(),
+    teamBIndex: (formData.get("matchTeamB") || "").toString(),
+    teamABatterRuns: (formData.get("teamABatterRuns") || "").toString(),
+    teamBBatterRuns: (formData.get("teamBBatterRuns") || "").toString(),
+    teamABowlerWickets: (formData.get("teamABowlerWickets") || "").toString(),
+    teamBBowlerWickets: (formData.get("teamBBowlerWickets") || "").toString(),
+  };
+
+  const validation = validateMatch(getTeams(), payload);
+  if (!validation.valid) {
+    matchFormMessage.textContent = validation.message;
+    matchFormMessage.className = "message error";
+    return;
+  }
+
+  const matches = getMatches();
+  matches.push(validation.data);
+  saveMatches(matches);
+  renderMatches();
+
+  matchForm.reset();
+  populateMatchTeamOptions();
+  matchFormMessage.textContent = "Match created successfully.";
+  matchFormMessage.className = "message success";
+});
+
 runOneTimeReset();
 clearEditingMode();
 renderTeamLogoOptions();
@@ -482,3 +678,4 @@ clearTeamEditingMode();
 resetTeamLogoSelection();
 renderPlayers();
 renderTeams();
+renderMatches();
