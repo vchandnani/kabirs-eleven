@@ -4,8 +4,9 @@ const { JSDOM } = require("jsdom");
 
 const VALIDATION_MODULE_PATH = require.resolve("../player-validation.js");
 const APP_MODULE_PATH = require.resolve("../app.js");
+const TEAM_VALIDATION_MODULE_PATH = require.resolve("../team-validation.js");
 
-function createDom() {
+function createDom(options = {}) {
   const dom = new JSDOM(
     `<!doctype html>
     <html lang="en">
@@ -21,6 +22,15 @@ function createDom() {
           <p id="form-message"></p>
         </form>
         <ul id="player-list"></ul>
+        <form id="team-form">
+          <input id="teamName" name="teamName" type="text" />
+          <div id="team-logo-options"></div>
+          <input id="teamLogo" name="teamLogo" type="hidden" />
+          <textarea id="teamPlayerNumbers" name="teamPlayerNumbers"></textarea>
+          <button id="submit-team-button" type="submit">Create Team</button>
+          <p id="team-form-message"></p>
+        </form>
+        <ul id="team-list"></ul>
       </body>
     </html>`,
     { url: "http://localhost" }
@@ -31,9 +41,17 @@ function createDom() {
   global.FormData = dom.window.FormData;
   global.localStorage = dom.window.localStorage;
 
+  if (options.initialStorage) {
+    Object.entries(options.initialStorage).forEach(([key, value]) => {
+      dom.window.localStorage.setItem(key, value);
+    });
+  }
+
   delete require.cache[VALIDATION_MODULE_PATH];
+  delete require.cache[TEAM_VALIDATION_MODULE_PATH];
   delete require.cache[APP_MODULE_PATH];
   window.PlayerValidation = require("../player-validation.js");
+  window.TeamValidation = require("../team-validation.js");
   require("../app.js");
 
   return dom;
@@ -246,6 +264,85 @@ test("deleting a player before edited row keeps edit target valid", () => {
     assert.match(listText, /Suresh Raina/);
     assert.match(listText, /Batter/);
     assert.doesNotMatch(listText, /Yuvraj Singh/);
+  } finally {
+    destroyDom(dom);
+  }
+});
+
+test("create team maps player numbers to full names", () => {
+  const dom = createDom();
+  try {
+    submitForm(dom, {
+      number: "18",
+      firstName: "Virat",
+      lastName: "Kohli",
+      teamAffiliation: "India",
+      specialization: "Batter",
+    });
+    submitForm(dom, {
+      number: "45",
+      firstName: "Rohit",
+      lastName: "Sharma",
+      teamAffiliation: "India",
+      specialization: "Batter",
+    });
+
+    const teamForm = dom.window.document.getElementById("team-form");
+    teamForm.elements.teamName.value = "India XI";
+    teamForm.elements.teamPlayerNumbers.value = "18,45";
+    teamForm.dispatchEvent(
+      new dom.window.Event("submit", { bubbles: true, cancelable: true })
+    );
+
+    const teamListText = dom.window.document.getElementById("team-list").textContent;
+    assert.match(teamListText, /India XI/);
+    assert.match(teamListText, /#18 - Virat Kohli/);
+    assert.match(teamListText, /#45 - Rohit Sharma/);
+  } finally {
+    destroyDom(dom);
+  }
+});
+
+test("create team blocks unknown player numbers", () => {
+  const dom = createDom();
+  try {
+    submitForm(dom, {
+      number: "18",
+      firstName: "Virat",
+      lastName: "Kohli",
+      teamAffiliation: "India",
+      specialization: "Batter",
+    });
+
+    const teamForm = dom.window.document.getElementById("team-form");
+    teamForm.elements.teamName.value = "India XI";
+    teamForm.elements.teamPlayerNumbers.value = "18,99";
+    teamForm.dispatchEvent(
+      new dom.window.Event("submit", { bubbles: true, cancelable: true })
+    );
+
+    const teamMessage = dom.window.document.getElementById("team-form-message");
+    const teamListText = dom.window.document.getElementById("team-list").textContent;
+    assert.equal(teamMessage.textContent, "Player number 99 does not exist.");
+    assert.match(teamListText, /No teams added yet\./);
+  } finally {
+    destroyDom(dom);
+  }
+});
+
+test("app boot handles invalid players/teams JSON with safe fallback", () => {
+  const dom = createDom({
+    initialStorage: {
+      cricketPlayers: "{invalid-json",
+      cricketTeams: "{invalid-json",
+      cricketPlayersResetVersion: "2026-03-03-fresh-reset",
+    },
+  });
+  try {
+    const playerListText = dom.window.document.getElementById("player-list").textContent;
+    const teamListText = dom.window.document.getElementById("team-list").textContent;
+    assert.match(playerListText, /No players added yet\./);
+    assert.match(teamListText, /No teams added yet\./);
   } finally {
     destroyDom(dom);
   }

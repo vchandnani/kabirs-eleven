@@ -10,7 +10,7 @@
     <header class="tricolor-banner" aria-hidden="true"></header>
     <main class="container">
       <h1>Kabir's Eleven</h1>
-      <p class="subtitle">Step 1: Create cricket players</p>
+      <p class="subtitle">Step 2: Manage cricket players and teams</p>
 
       <div class="content-grid">
         <section class="card">
@@ -62,10 +62,47 @@
           <h2>Players</h2>
           <ul id="player-list"></ul>
         </section>
+
+        <section class="card">
+          <h2>Create Team</h2>
+          <form id="team-form" novalidate>
+            <label for="teamName">Team Name</label>
+            <input id="teamName" name="teamName" type="text" required />
+
+            <label for="teamLogo">Team Logo URL</label>
+            <div id="team-logo-options" class="logo-options" role="group"></div>
+            <input id="teamLogo" name="teamLogo" type="hidden" required />
+
+            <label for="teamPlayerNumbers">
+              Player Numbers (comma-separated, up to 11)
+            </label>
+            <textarea
+              id="teamPlayerNumbers"
+              name="teamPlayerNumbers"
+              rows="4"
+              placeholder="18, 45, 1"
+              required
+            ></textarea>
+
+            <button id="submit-team-button" type="submit">Create Team</button>
+            <p
+              id="team-form-message"
+              class="message"
+              role="status"
+              aria-live="polite"
+            ></p>
+          </form>
+        </section>
+
+        <section class="card">
+          <h2>Teams</h2>
+          <ul id="team-list"></ul>
+        </section>
       </div>
     </main>
 
     <script src="./player-validation.js"></script>
+    <script src="./team-validation.js"></script>
     <script src="./app.js"></script>
   </body>
   </html>
