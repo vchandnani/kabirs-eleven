@@ -7,30 +7,37 @@
     return Object.values(player).some((value) => value === "");
   }
 
-  function hasDuplicateNumber(players, player) {
+  function hasDuplicateNumber(players, player, options = {}) {
+    const ignoreIndex =
+      typeof options.ignoreIndex === "number" ? options.ignoreIndex : -1;
     return players.some(
-      (existing) => normalize(existing.number) === normalize(player.number)
+      (existing, index) =>
+        index !== ignoreIndex &&
+        normalize(existing.number) === normalize(player.number)
     );
   }
 
-  function hasDuplicateName(players, player) {
+  function hasDuplicateName(players, player, options = {}) {
+    const ignoreIndex =
+      typeof options.ignoreIndex === "number" ? options.ignoreIndex : -1;
     return players.some(
-      (existing) =>
+      (existing, index) =>
+        index !== ignoreIndex &&
         normalize(existing.firstName) === normalize(player.firstName) &&
         normalize(existing.lastName) === normalize(player.lastName)
     );
   }
 
-  function validatePlayer(players, player) {
+  function validatePlayer(players, player, options = {}) {
     if (hasMissingField(player)) {
       return { valid: false, message: "All fields are required." };
     }
 
-    if (hasDuplicateNumber(players, player)) {
+    if (hasDuplicateNumber(players, player, options)) {
       return { valid: false, message: "Player number must be unique." };
     }
 
-    if (hasDuplicateName(players, player)) {
+    if (hasDuplicateName(players, player, options)) {
       return {
         valid: false,
         message: "First and last name combination must be unique.",

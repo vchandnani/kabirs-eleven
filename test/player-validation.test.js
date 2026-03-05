@@ -33,6 +33,10 @@ test("hasDuplicateNumber compares normalized values", () => {
   const players = [basePlayer({ number: " 18 " })];
   assert.equal(hasDuplicateNumber(players, basePlayer({ number: "18" })), true);
   assert.equal(hasDuplicateNumber(players, basePlayer({ number: "19" })), false);
+  assert.equal(
+    hasDuplicateNumber(players, basePlayer({ number: "18" }), { ignoreIndex: 0 }),
+    false
+  );
 });
 
 test("hasDuplicateName compares first+last name case-insensitively", () => {
@@ -46,6 +50,14 @@ test("hasDuplicateName compares first+last name case-insensitively", () => {
   );
   assert.equal(
     hasDuplicateName(players, basePlayer({ firstName: "Rohit", lastName: "Sharma" })),
+    false
+  );
+  assert.equal(
+    hasDuplicateName(
+      players,
+      basePlayer({ firstName: "virat", lastName: "kohli" }),
+      { ignoreIndex: 0 }
+    ),
     false
   );
 });
@@ -89,5 +101,11 @@ test("validatePlayer accepts a unique player", () => {
       lastName: "Sharma",
     })
   );
+  assert.deepEqual(result, { valid: true, message: "" });
+});
+
+test("validatePlayer allows keeping same number/name while editing same index", () => {
+  const players = [basePlayer()];
+  const result = validatePlayer(players, basePlayer(), { ignoreIndex: 0 });
   assert.deepEqual(result, { valid: true, message: "" });
 });
