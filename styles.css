@@ -217,6 +217,16 @@ button:hover {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  justify-content: space-between;
+}
+
+.team-header strong {
+  flex: 1;
+}
+
+.team-actions {
+  display: flex;
+  gap: 0.35rem;
 }
 
 .team-logo {

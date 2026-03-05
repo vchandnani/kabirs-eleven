@@ -12,9 +12,12 @@ const teamForm = document.getElementById("team-form");
 const teamList = document.getElementById("team-list");
 const teamFormMessage = document.getElementById("team-form-message");
 const teamLogoOptions = document.getElementById("team-logo-options");
+const submitTeamButton = document.getElementById("submit-team-button");
+const cancelTeamEditButton = document.getElementById("cancel-team-edit-button");
 const { validatePlayer } = window.PlayerValidation;
 const { validateTeam, normalize: normalizeTeamValue } = window.TeamValidation;
 let editingIndex = null;
+let editingTeamIndex = null;
 const TEAM_LOGOS = [
   {
     id: "orange-blue",
@@ -95,6 +98,13 @@ function renderTeamLogoOptions() {
   });
 }
 
+function resetTeamLogoSelection() {
+  const firstButton = teamLogoOptions.querySelector(".logo-option");
+  if (firstButton) {
+    firstButton.dispatchEvent(new window.Event("click", { bubbles: true }));
+  }
+}
+
 function runOneTimeReset() {
   const currentResetVersion = window.localStorage.getItem(RESET_VERSION_KEY);
   if (currentResetVersion === RESET_VERSION) {
@@ -151,12 +161,44 @@ function clearEditingMode() {
   cancelEditButton.style.display = "none";
 }
 
+function setTeamEditingMode(index) {
+  editingTeamIndex = index;
+  submitTeamButton.textContent = "Update Team";
+  cancelTeamEditButton.style.display = "inline-block";
+}
+
+function clearTeamEditingMode() {
+  editingTeamIndex = null;
+  submitTeamButton.textContent = "Create Team";
+  cancelTeamEditButton.style.display = "none";
+}
+
 function fillForm(player) {
   playerForm.elements.number.value = player.number;
   playerForm.elements.firstName.value = player.firstName;
   playerForm.elements.lastName.value = player.lastName;
   playerForm.elements.teamAffiliation.value = player.teamAffiliation;
   playerForm.elements.specialization.value = player.specialization;
+}
+
+function fillTeamForm(team) {
+  teamForm.elements.teamName.value = team.name;
+  teamForm.elements.teamPlayerNumbers.value = team.playerNumbers.join(", ");
+
+  const buttons = teamLogoOptions.querySelectorAll(".logo-option");
+  const selected = Array.from(buttons).find(
+    (button) => button.querySelector("img")?.src === team.logoUrl
+  );
+  if (selected) {
+    selected.dispatchEvent(new window.Event("click", { bubbles: true }));
+    return;
+  }
+
+  teamForm.elements.teamLogo.value = team.logoUrl;
+  buttons.forEach((button) => {
+    button.classList.remove("active");
+    button.setAttribute("aria-pressed", "false");
+  });
 }
 
 function deletePlayer(index) {
@@ -175,6 +217,24 @@ function deletePlayer(index) {
   formMessage.textContent = "Player deleted successfully.";
   formMessage.className = "message success";
   renderTeams();
+}
+
+function deleteTeam(index) {
+  const teams = getTeams();
+  teams.splice(index, 1);
+  saveTeams(teams);
+  renderTeams();
+
+  if (editingTeamIndex === index) {
+    teamForm.reset();
+    resetTeamLogoSelection();
+    clearTeamEditingMode();
+  } else if (editingTeamIndex !== null && editingTeamIndex > index) {
+    editingTeamIndex -= 1;
+  }
+
+  teamFormMessage.textContent = "Team deleted successfully.";
+  teamFormMessage.className = "message success";
 }
 
 function renderPlayers() {
@@ -253,7 +313,7 @@ function renderTeams() {
     return;
   }
 
-  teams.forEach((team) => {
+  teams.forEach((team, index) => {
     const item = document.createElement("li");
     item.className = "team-item";
 
@@ -269,6 +329,37 @@ function renderTeams() {
     const teamName = document.createElement("strong");
     teamName.textContent = team.name;
     header.appendChild(teamName);
+
+    const actions = document.createElement("div");
+    actions.className = "team-actions";
+
+    const editButton = document.createElement("button");
+    editButton.type = "button";
+    editButton.className = "icon-button";
+    editButton.setAttribute("aria-label", "Edit team");
+    editButton.title = "Edit Team";
+    editButton.textContent = "✎";
+    editButton.addEventListener("click", () => {
+      fillTeamForm(team);
+      setTeamEditingMode(index);
+      teamFormMessage.textContent = "Editing team. Update and save.";
+      teamFormMessage.className = "message";
+    });
+
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.className = "icon-button danger";
+    deleteButton.setAttribute("aria-label", "Delete team");
+    deleteButton.title = "Delete Team";
+    deleteButton.innerHTML =
+      '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6l1 2h4v2H4V5h4l1-2zm-2 6h10l-1 11H8L7 9zm3 2v7h2v-7h-2zm4 0v7h2v-7h-2z" fill="currentColor"/></svg>';
+    deleteButton.addEventListener("click", () => {
+      deleteTeam(index);
+    });
+
+    actions.appendChild(editButton);
+    actions.appendChild(deleteButton);
+    header.appendChild(actions);
 
     const playerNames = document.createElement("ul");
     playerNames.className = "team-player-list";
@@ -353,21 +444,41 @@ teamForm.addEventListener("submit", (event) => {
   }
 
   const teams = getTeams();
-  teams.push({
+  const savedTeam = {
     name: team.name,
     logoUrl: team.logoUrl,
     playerNumbers: validation.playerNumbers,
-  });
+  };
+  if (editingTeamIndex === null) {
+    teams.push(savedTeam);
+  } else {
+    teams[editingTeamIndex] = savedTeam;
+  }
   saveTeams(teams);
   renderTeams();
 
   teamForm.reset();
-  teamFormMessage.textContent = "Team created successfully.";
+  resetTeamLogoSelection();
+  teamFormMessage.textContent =
+    editingTeamIndex === null
+      ? "Team created successfully."
+      : "Team updated successfully.";
   teamFormMessage.className = "message success";
+  clearTeamEditingMode();
+});
+
+cancelTeamEditButton.addEventListener("click", () => {
+  teamForm.reset();
+  resetTeamLogoSelection();
+  clearTeamEditingMode();
+  teamFormMessage.textContent = "Team edit cancelled.";
+  teamFormMessage.className = "message";
 });
 
 runOneTimeReset();
 clearEditingMode();
 renderTeamLogoOptions();
+clearTeamEditingMode();
+resetTeamLogoSelection();
 renderPlayers();
 renderTeams();

@@ -28,6 +28,7 @@ function createDom(options = {}) {
           <input id="teamLogo" name="teamLogo" type="hidden" />
           <textarea id="teamPlayerNumbers" name="teamPlayerNumbers"></textarea>
           <button id="submit-team-button" type="submit">Create Team</button>
+          <button id="cancel-team-edit-button" type="button">Cancel Edit</button>
           <p id="team-form-message"></p>
         </form>
         <ul id="team-list"></ul>
@@ -325,6 +326,125 @@ test("create team blocks unknown player numbers", () => {
     const teamListText = dom.window.document.getElementById("team-list").textContent;
     assert.equal(teamMessage.textContent, "Player number 99 does not exist.");
     assert.match(teamListText, /No teams added yet\./);
+  } finally {
+    destroyDom(dom);
+  }
+});
+
+test("edit team updates team fields and members", () => {
+  const dom = createDom();
+  try {
+    submitForm(dom, {
+      number: "18",
+      firstName: "Virat",
+      lastName: "Kohli",
+      teamAffiliation: "India",
+      specialization: "Batter",
+    });
+    submitForm(dom, {
+      number: "45",
+      firstName: "Rohit",
+      lastName: "Sharma",
+      teamAffiliation: "India",
+      specialization: "Batter",
+    });
+    submitForm(dom, {
+      number: "7",
+      firstName: "MS",
+      lastName: "Dhoni",
+      teamAffiliation: "India",
+      specialization: "Wicketkeeper",
+    });
+
+    const teamForm = dom.window.document.getElementById("team-form");
+    teamForm.elements.teamName.value = "India XI";
+    teamForm.elements.teamPlayerNumbers.value = "18,45";
+    teamForm.dispatchEvent(
+      new dom.window.Event("submit", { bubbles: true, cancelable: true })
+    );
+
+    clickButton(dom, 'button[title="Edit Team"]');
+    assert.equal(
+      dom.window.document.getElementById("submit-team-button").textContent.trim(),
+      "Update Team"
+    );
+
+    teamForm.elements.teamName.value = "India Legends";
+    teamForm.elements.teamPlayerNumbers.value = "18,7";
+    teamForm.dispatchEvent(
+      new dom.window.Event("submit", { bubbles: true, cancelable: true })
+    );
+
+    const teamListText = dom.window.document.getElementById("team-list").textContent;
+    assert.match(teamListText, /India Legends/);
+    assert.match(teamListText, /#18 - Virat Kohli/);
+    assert.match(teamListText, /#7 - MS Dhoni/);
+    assert.doesNotMatch(teamListText, /#45 - Rohit Sharma/);
+  } finally {
+    destroyDom(dom);
+  }
+});
+
+test("cancel team edit exits edit mode", () => {
+  const dom = createDom();
+  try {
+    submitForm(dom, {
+      number: "18",
+      firstName: "Virat",
+      lastName: "Kohli",
+      teamAffiliation: "India",
+      specialization: "Batter",
+    });
+
+    const teamForm = dom.window.document.getElementById("team-form");
+    teamForm.elements.teamName.value = "India XI";
+    teamForm.elements.teamPlayerNumbers.value = "18";
+    teamForm.dispatchEvent(
+      new dom.window.Event("submit", { bubbles: true, cancelable: true })
+    );
+
+    clickButton(dom, 'button[title="Edit Team"]');
+    clickButton(dom, "#cancel-team-edit-button");
+
+    assert.equal(
+      dom.window.document.getElementById("submit-team-button").textContent.trim(),
+      "Create Team"
+    );
+    assert.equal(
+      dom.window.document.getElementById("team-form-message").textContent,
+      "Team edit cancelled."
+    );
+  } finally {
+    destroyDom(dom);
+  }
+});
+
+test("delete team removes selected team", () => {
+  const dom = createDom();
+  try {
+    submitForm(dom, {
+      number: "18",
+      firstName: "Virat",
+      lastName: "Kohli",
+      teamAffiliation: "India",
+      specialization: "Batter",
+    });
+
+    const teamForm = dom.window.document.getElementById("team-form");
+    teamForm.elements.teamName.value = "India XI";
+    teamForm.elements.teamPlayerNumbers.value = "18";
+    teamForm.dispatchEvent(
+      new dom.window.Event("submit", { bubbles: true, cancelable: true })
+    );
+
+    clickButton(dom, 'button[title="Delete Team"]');
+
+    const teamListText = dom.window.document.getElementById("team-list").textContent;
+    assert.match(teamListText, /No teams added yet\./);
+    assert.equal(
+      dom.window.document.getElementById("team-form-message").textContent,
+      "Team deleted successfully."
+    );
   } finally {
     destroyDom(dom);
   }
