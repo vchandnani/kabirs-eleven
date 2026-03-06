@@ -1,0 +1,236 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 6 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+6 0 obj
+<< /Length 3070 >>
+stream
+BT
+/F2 18 Tf
+28 764 Td
+(Manage Matches - Capability Guide) Tj
+ET
+BT
+/F1 12 Tf
+28 746 Td
+(5-minute onboarding: code map, runtime flow, scoring logic, and tests) Tj
+ET
+0 0 0 RG
+0 0 0 rg
+BT
+/F2 12 Tf
+38 724 Td
+(1\) Capability Scope) Tj
+ET
+BT
+/F1 10.5 Tf
+38 706 Td
+(- Create + list matches between two teams \(UI currently implements) Tj
+ET
+BT
+/F1 10.5 Tf
+38 694 Td
+(  create/read\).) Tj
+ET
+BT
+/F1 10.5 Tf
+38 682 Td
+(- Stores batter runs and bowler wickets per team, computes totals and) Tj
+ET
+BT
+/F1 10.5 Tf
+38 670 Td
+(  winner.) Tj
+ET
+BT
+/F1 10.5 Tf
+38 658 Td
+(- Storage key: cricketMatches in browser localStorage.) Tj
+ET
+0 0 0 RG
+0 0 0 rg
+BT
+/F2 12 Tf
+38 635 Td
+(2\) Key Code Paths) Tj
+ET
+BT
+/F1 10.5 Tf
+38 617 Td
+(- app.js: matchForm submit handler builds payload and calls) Tj
+ET
+BT
+/F1 10.5 Tf
+38 605 Td
+(  validateMatch\(\).) Tj
+ET
+BT
+/F1 10.5 Tf
+38 593 Td
+(- app.js: populateMatchTeamOptions\(\) keeps Team A/Team B selections) Tj
+ET
+BT
+/F1 10.5 Tf
+38 581 Td
+(  valid.) Tj
+ET
+BT
+/F1 10.5 Tf
+38 569 Td
+(- app.js: renderMatches\(\) outputs scoreline, winner, and stat) Tj
+ET
+BT
+/F1 10.5 Tf
+38 557 Td
+(  breakdowns.) Tj
+ET
+BT
+/F1 10.5 Tf
+38 545 Td
+(- match-validation.js: parseStats\(\), validateMembers\(\),) Tj
+ET
+BT
+/F1 10.5 Tf
+38 533 Td
+(  validateMatch\(\), sumValues\(\).) Tj
+ET
+0 0 0 RG
+0 0 0 rg
+BT
+/F2 12 Tf
+38 510 Td
+(3\) Scoring + Winner Rules) Tj
+ET
+BT
+/F1 10.5 Tf
+38 492 Td
+(- Input format: playerNumber:value \(comma/newline separated\).) Tj
+ET
+BT
+/F1 10.5 Tf
+38 480 Td
+(- Runs total: sum of batter runs entries per team.) Tj
+ET
+BT
+/F1 10.5 Tf
+38 468 Td
+(- Wickets lost: derived from opposing team bowler wickets entries.) Tj
+ET
+BT
+/F1 10.5 Tf
+38 456 Td
+(- Winner: higher runs; if tie on runs, fewer wickets lost wins; else) Tj
+ET
+BT
+/F1 10.5 Tf
+38 444 Td
+(  Draw.) Tj
+ET
+BT
+/F1 10.5 Tf
+38 432 Td
+(- Roster guard: all entered player numbers must belong to selected) Tj
+ET
+BT
+/F1 10.5 Tf
+38 420 Td
+(  team.) Tj
+ET
+0 0 0 RG
+0 0 0 rg
+BT
+/F2 12 Tf
+38 397 Td
+(4\) Automated Tests \(Associated\)) Tj
+ET
+BT
+/F1 10.5 Tf
+38 379 Td
+(- Unit: test/match-validation.test.js covers parsing, invalid formats,) Tj
+ET
+BT
+/F1 10.5 Tf
+38 367 Td
+(  roster validation errors, runs/wickets totals, and winner tie-break) Tj
+ET
+BT
+/F1 10.5 Tf
+38 355 Td
+(  scenarios.) Tj
+ET
+BT
+/F1 10.5 Tf
+38 343 Td
+(- UI integration: test/app-ui.test.js covers create match success,) Tj
+ET
+BT
+/F1 10.5 Tf
+38 331 Td
+(  same-team rejection, disabled submit guard, team selector) Tj
+ET
+BT
+/F1 10.5 Tf
+38 319 Td
+(  auto-adjust logic, and stat input field type assertions.) Tj
+ET
+BT
+/F1 10.5 Tf
+38 307 Td
+(- All tests run under Node test runner with c8 coverage thresholds.) Tj
+ET
+0 0 0 RG
+0 0 0 rg
+BT
+/F2 12 Tf
+38 284 Td
+(5\) Fast Review Checklist) Tj
+ET
+BT
+/F1 10.5 Tf
+38 266 Td
+(- Read validateMatch\(\) first to understand all decision logic.) Tj
+ET
+BT
+/F1 10.5 Tf
+38 254 Td
+(- Then inspect match form submit + renderMatches\(\) in app.js.) Tj
+ET
+BT
+/F1 10.5 Tf
+38 242 Td
+(- Use match-validation + app-ui tests as executable documentation for) Tj
+ET
+BT
+/F1 10.5 Tf
+38 230 Td
+(  edge cases.) Tj
+ET
+endstream
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000121 00000 n 
+0000000257 00000 n 
+0000000327 00000 n 
+0000000402 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+3524
+%%EOF

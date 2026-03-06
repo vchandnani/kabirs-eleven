@@ -1,0 +1,206 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 6 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+6 0 obj
+<< /Length 2710 >>
+stream
+BT
+/F2 18 Tf
+28 764 Td
+(Manage Teams - Capability Guide) Tj
+ET
+BT
+/F1 12 Tf
+28 746 Td
+(5-minute onboarding: code map, runtime flow, validation, and tests) Tj
+ET
+0 0 0 RG
+0 0 0 rg
+BT
+/F2 12 Tf
+38 724 Td
+(1\) Capability Scope) Tj
+ET
+BT
+/F1 10.5 Tf
+38 706 Td
+(- CRUD for teams in UI: create, list, edit, delete.) Tj
+ET
+BT
+/F1 10.5 Tf
+38 694 Td
+(- Team fields: name, selected logo, playerNumbers roster \(max 11\).) Tj
+ET
+BT
+/F1 10.5 Tf
+38 682 Td
+(- Storage key: cricketTeams in browser localStorage.) Tj
+ET
+0 0 0 RG
+0 0 0 rg
+BT
+/F2 12 Tf
+38 659 Td
+(2\) Key Code Paths) Tj
+ET
+BT
+/F1 10.5 Tf
+38 641 Td
+(- app.js: teamForm submit handler validates then saves/updates team.) Tj
+ET
+BT
+/F1 10.5 Tf
+38 629 Td
+(- app.js: renderTeamLogoOptions\(\), selectTeamLogo\(\),) Tj
+ET
+BT
+/F1 10.5 Tf
+38 617 Td
+(  resetTeamLogoSelection\(\).) Tj
+ET
+BT
+/F1 10.5 Tf
+38 605 Td
+(- app.js: renderTeams\(\) builds team cards + member name lookup by) Tj
+ET
+BT
+/F1 10.5 Tf
+38 593 Td
+(  player number.) Tj
+ET
+BT
+/F1 10.5 Tf
+38 581 Td
+(- app.js: setTeamEditingMode\(\), clearTeamEditingMode\(\),) Tj
+ET
+BT
+/F1 10.5 Tf
+38 569 Td
+(  fillTeamForm\(\), deleteTeam\(\).) Tj
+ET
+0 0 0 RG
+0 0 0 rg
+BT
+/F2 12 Tf
+38 546 Td
+(3\) Validation + Runtime Rules) Tj
+ET
+BT
+/F1 10.5 Tf
+38 528 Td
+(- Team name required; logo selection required.) Tj
+ET
+BT
+/F1 10.5 Tf
+38 516 Td
+(- Roster needs at least one player number and at most 11.) Tj
+ET
+BT
+/F1 10.5 Tf
+38 504 Td
+(- No duplicate player numbers inside one team.) Tj
+ET
+BT
+/F1 10.5 Tf
+38 492 Td
+(- Every player number must already exist in players dataset.) Tj
+ET
+BT
+/F1 10.5 Tf
+38 480 Td
+(- Validation source: team-validation.js validateTeam\(\).) Tj
+ET
+0 0 0 RG
+0 0 0 rg
+BT
+/F2 12 Tf
+38 457 Td
+(4\) Automated Tests \(Associated\)) Tj
+ET
+BT
+/F1 10.5 Tf
+38 439 Td
+(- Unit: test/team-validation.test.js covers parse input, required) Tj
+ET
+BT
+/F1 10.5 Tf
+38 427 Td
+(  fields, max 11, duplicates, unknown numbers, valid path.) Tj
+ET
+BT
+/F1 10.5 Tf
+38 415 Td
+(- UI integration: test/app-ui.test.js covers team create success,) Tj
+ET
+BT
+/F1 10.5 Tf
+38 403 Td
+(  unknown-number failure, edit/update, cancel edit, delete, and) Tj
+ET
+BT
+/F1 10.5 Tf
+38 391 Td
+(  delete-while-editing index shifts.) Tj
+ET
+BT
+/F1 10.5 Tf
+38 379 Td
+(- Cross-capability: team display confirms player number -> full name) Tj
+ET
+BT
+/F1 10.5 Tf
+38 367 Td
+(  mapping.) Tj
+ET
+0 0 0 RG
+0 0 0 rg
+BT
+/F2 12 Tf
+38 344 Td
+(5\) Fast Review Checklist) Tj
+ET
+BT
+/F1 10.5 Tf
+38 326 Td
+(- Start with team-validation.js to learn acceptance rules.) Tj
+ET
+BT
+/F1 10.5 Tf
+38 314 Td
+(- Read app.js team logo selector + team submit/edit/delete handlers.) Tj
+ET
+BT
+/F1 10.5 Tf
+38 302 Td
+(- Confirm behavior via team unit tests and team-focused UI tests.) Tj
+ET
+endstream
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000121 00000 n 
+0000000257 00000 n 
+0000000327 00000 n 
+0000000402 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+3164
+%%EOF
