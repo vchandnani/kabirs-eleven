@@ -71,6 +71,20 @@ npm run test:coverage
 - Each GitHub Actions run also uploads `coverage-html` as a downloadable artifact.
 - Coverage thresholds are enforced in CI (`lines`, `functions`, and `branches`).
 
+## Technical Qualification Card
+
+The `qual-card/` directory contains onboarding artifacts designed to bring a new developer up to speed quickly:
+
+- System architecture diagram:
+  - [system-architecture-diagram.pdf](/Users/vishalchandnani/dev/kabirs-eleven/qual-card/system-architecture-diagram.pdf)
+- Capability deep-dives (one page each):
+  - [manage-players-capability.pdf](/Users/vishalchandnani/dev/kabirs-eleven/qual-card/manage-players-capability.pdf)
+  - [manage-teams-capability.pdf](/Users/vishalchandnani/dev/kabirs-eleven/qual-card/manage-teams-capability.pdf)
+  - [manage-matches-capability.pdf](/Users/vishalchandnani/dev/kabirs-eleven/qual-card/manage-matches-capability.pdf)
+- Regenerators for these PDFs:
+  - [generate_architecture_pdf.py](/Users/vishalchandnani/dev/kabirs-eleven/qual-card/generate_architecture_pdf.py)
+  - [generate_capability_guides.py](/Users/vishalchandnani/dev/kabirs-eleven/qual-card/generate_capability_guides.py)
+
 ## Project Structure
 
 ```text
