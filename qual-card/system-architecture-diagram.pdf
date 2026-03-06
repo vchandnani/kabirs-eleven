@@ -1,0 +1,306 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 792 612] /Resources << /Font << /F1 4 0 R /F2 5 0 R >> >> /Contents 6 0 R >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+6 0 obj
+<< /Length 3936 >>
+stream
+BT
+/F2 15 Tf
+224 582 Td
+(Kabir's Eleven - System Architecture Diagram) Tj
+ET
+1.00 0.93 0.95 rg
+0 0 0 RG
+1 w
+20 214 170 220 re B
+0 0 0 rg
+BT
+/F1 10 Tf
+30 418 Td
+(Web UI) Tj
+ET
+BT
+/F1 8.5 Tf
+30 404 Td
+(Capture inputs - Render outputs) Tj
+ET
+BT
+/F1 8.5 Tf
+30 394 Td
+(Files: index.html, app.js, styles.css) Tj
+ET
+BT
+/F1 8.5 Tf
+30 384 Td
+(Forms + Lists + action icons) Tj
+ET
+1.00 0.97 0.82 rg
+0 0 0 RG
+1 w
+220 404 180 120 re B
+0 0 0 rg
+BT
+/F1 10 Tf
+230 508 Td
+(Players Capability) Tj
+ET
+BT
+/F1 8.5 Tf
+230 494 Td
+(Purpose: Player master data) Tj
+ET
+BT
+/F1 8.5 Tf
+230 484 Td
+(Create | Read | Update | Delete) Tj
+ET
+BT
+/F1 8.5 Tf
+230 474 Td
+(Unique number + name validation) Tj
+ET
+1.00 0.97 0.82 rg
+0 0 0 RG
+1 w
+220 264 180 120 re B
+0 0 0 rg
+BT
+/F1 10 Tf
+230 368 Td
+(Teams Capability) Tj
+ET
+BT
+/F1 8.5 Tf
+230 354 Td
+(Purpose: Team rosters from players) Tj
+ET
+BT
+/F1 8.5 Tf
+230 344 Td
+(Create | Read | Update | Delete) Tj
+ET
+BT
+/F1 8.5 Tf
+230 334 Td
+(Up to 11 player numbers per team) Tj
+ET
+1.00 0.97 0.82 rg
+0 0 0 RG
+1 w
+220 124 180 120 re B
+0 0 0 rg
+BT
+/F1 10 Tf
+230 228 Td
+(Matches Capability) Tj
+ET
+BT
+/F1 8.5 Tf
+230 214 Td
+(Purpose: Match records and outcomes) Tj
+ET
+BT
+/F1 8.5 Tf
+230 204 Td
+(Create | Read \(Update/Delete ready\)) Tj
+ET
+BT
+/F1 8.5 Tf
+230 194 Td
+(Batter runs + bowler wickets input) Tj
+ET
+0.90 0.98 0.90 rg
+0 0 0 RG
+1 w
+430 350 180 156 re B
+0 0 0 rg
+BT
+/F1 10 Tf
+440 490 Td
+(Validation Layer) Tj
+ET
+BT
+/F1 8.5 Tf
+440 476 Td
+(Purpose: Rule enforcement) Tj
+ET
+BT
+/F1 8.5 Tf
+440 466 Td
+(player-validation.js) Tj
+ET
+BT
+/F1 8.5 Tf
+440 456 Td
+(team-validation.js) Tj
+ET
+BT
+/F1 8.5 Tf
+440 446 Td
+(match-validation.js) Tj
+ET
+BT
+/F1 8.5 Tf
+440 436 Td
+(Input parsing + consistency checks) Tj
+ET
+0.90 0.98 0.90 rg
+0 0 0 RG
+1 w
+430 156 180 156 re B
+0 0 0 rg
+BT
+/F1 10 Tf
+440 296 Td
+(Match Scoring Engine) Tj
+ET
+BT
+/F1 8.5 Tf
+440 282 Td
+(Purpose: Score computation) Tj
+ET
+BT
+/F1 8.5 Tf
+440 272 Td
+(Batter runs -> total runs) Tj
+ET
+BT
+/F1 8.5 Tf
+440 262 Td
+(Bowler wickets -> wickets lost) Tj
+ET
+BT
+/F1 8.5 Tf
+440 252 Td
+(Winner computed and stored) Tj
+ET
+0.87 0.94 1.00 rg
+0 0 0 RG
+1 w
+630 214 142 220 re B
+0 0 0 rg
+BT
+/F1 10 Tf
+640 402 Td
+(Data Layer) Tj
+ET
+BT
+/F1 10 Tf
+640 392 Td
+(\(Browser localStorage\)) Tj
+ET
+BT
+/F1 8.5 Tf
+640 378 Td
+(Purpose: Persist app state) Tj
+ET
+BT
+/F1 8.5 Tf
+640 368 Td
+(cricketPlayers) Tj
+ET
+BT
+/F1 8.5 Tf
+640 358 Td
+(cricketTeams) Tj
+ET
+BT
+/F1 8.5 Tf
+640 348 Td
+(cricketMatches) Tj
+ET
+BT
+/F1 8.5 Tf
+640 338 Td
+(Used to rehydrate UI) Tj
+ET
+0 0 0 RG 1.4 w 190 434 m 190 464 l S
+0 0 0 RG 1.4 w 190 464 m 220 464 l S
+0 0 0 rg 220 464 m 214 467 l 214 461 l h f
+0 0 0 RG 1.4 w 190 324 m 220 324 l S
+0 0 0 rg 220 324 m 214 327 l 214 321 l h f
+0 0 0 RG 1.4 w 190 214 m 190 184 l S
+0 0 0 RG 1.4 w 190 184 m 220 184 l S
+0 0 0 rg 220 184 m 214 187 l 214 181 l h f
+0 0 0 RG 1.4 w 310 404 m 310 384 l S
+0 0 0 rg 310 384 m 307 390 l 313 390 l h f
+0 0 0 RG 1.4 w 310 264 m 310 244 l S
+0 0 0 rg 310 244 m 307 250 l 313 250 l h f
+BT
+/F1 9 Tf
+318 392 Td
+(number lookup) Tj
+ET
+BT
+/F1 9 Tf
+318 252 Td
+(team rosters) Tj
+ET
+0 0 0 RG 1.4 w 400 464 m 430 464 l S
+0 0 0 rg 430 464 m 424 467 l 424 461 l h f
+0 0 0 RG 1.4 w 400 324 m 415 324 l S
+0 0 0 RG 1.4 w 415 324 m 415 390 l S
+0 0 0 RG 1.4 w 415 390 m 430 390 l S
+0 0 0 rg 430 390 m 424 393 l 424 387 l h f
+0 0 0 RG 1.4 w 400 184 m 430 184 l S
+0 0 0 rg 430 184 m 424 187 l 424 181 l h f
+0 0 0 RG 1.4 w 520 350 m 520 312 l S
+0 0 0 rg 520 312 m 517 318 l 523 318 l h f
+BT
+/F1 9 Tf
+528 332 Td
+(validated input) Tj
+ET
+0 0 0 RG 1.4 w 610 420 m 630 420 l S
+0 0 0 rg 630 420 m 624 423 l 624 417 l h f
+0 0 0 RG 1.4 w 610 234 m 630 234 l S
+0 0 0 rg 630 234 m 624 237 l 624 231 l h f
+BT
+/F1 7 Tf
+632 418 Td
+(persist entities) Tj
+ET
+BT
+/F1 7 Tf
+632 232 Td
+(totals + winner) Tj
+ET
+0 0 0 RG 1.4 w 701 214 m 701 88 l S
+0 0 0 RG 1.4 w 701 88 m 105 88 l S
+0 0 0 RG 1.4 w 105 88 m 105 214 l S
+0 0 0 rg 105 214 m 102 208 l 108 208 l h f
+BT
+/F1 9 Tf
+362 96 Td
+(rehydrate lists and cards) Tj
+ET
+endstream
+endobj
+xref
+0 7
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000121 00000 n 
+0000000257 00000 n 
+0000000327 00000 n 
+0000000402 00000 n 
+trailer
+<< /Size 7 /Root 1 0 R >>
+startxref
+4390
+%%EOF
